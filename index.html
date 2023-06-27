@@ -14,19 +14,21 @@
     </header>
     <main>
       <section class="gameboard" id="gameboard">
+        <div class="ausgabe2" id="ausgabe2"></div>
         <div class="container" id="container">
-          <div class="box box1" id="feld"></div>
-          <div class="box box2" id="feld"></div>
-          <div class="box box3" id="feld"></div>
-          <div class="box box4" id="feld"></div>
-          <div class="box box5" id="feld"></div>
-          <div class="box box6" id="feld"></div>
-          <div class="box box7" id="feld"></div>
-          <div class="box box8" id="feld"></div>
-          <div class="box box9" id="feld"></div>
+          <div class="box box1" data-index="0"></div>
+          <div class="box box2" data-index="1"></div>
+          <div class="box box3" data-index="2"></div>
+          <div class="box box4" data-index="3"></div>
+          <div class="box box5" data-index="4"></div>
+          <div class="box box6" data-index="5"></div>
+          <div class="box box7" data-index="6"></div>
+          <div class="box box8" data-index="7"></div>
+          <div class="box box9" data-index="8"></div>
         </div>
         <span class="buttonBereich">
           <button class="restart" id="restart">Restart Game</button>
+          <div class="ausgabe" id="ausgabe"></div>
         </span>
       </section>
 
@@ -34,6 +36,7 @@
         <h2>Player 1:</h2>
         <span class="spieler">
           <input
+            class="player1"
             type="text"
             placeholder="Name Player one"
             name="player1"
@@ -43,6 +46,7 @@
         <span class="spieler">
           <h2>Player 2:</h2>
           <input
+            class="player2"
             type="text"
             placeholder="Name Player two"
             name="player2"
@@ -52,6 +56,7 @@
 
         <span class="buttonBereich">
           <button class="start" id="start">Start Game</button>
+          <div class="meldung" id="meldung"></div>
         </span>
       </section>
     </main>

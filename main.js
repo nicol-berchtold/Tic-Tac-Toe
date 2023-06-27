@@ -41,16 +41,30 @@ class Game {
     this.player2.setSign("O");
   }
 
+  checkDraw() {
+    let isDraw = false;
+    let win = false;
+    let ausgabe2 = document.getElementById("ausgabe2");
+    if (!this.gameboard.includes(0) && win == false) {
+      isDraw = true;
+      ausgabe2.innerHTML = `Das Spiel ist unentschieden!`;
+    }
+    //console.log(isDraw);
+    return isDraw;
+  }
+
   checkWin() {
     let win = false;
+    let ausgabe = document.getElementById("ausgabe");
+
     this.winConditions.forEach((condition) => {
-      console.log("Win Conditions:", condition);
       if (
         this.gameboard[condition[0]] === "X" &&
         this.gameboard[condition[1]] === "X" &&
         this.gameboard[condition[2]] === "X"
       ) {
         win = true;
+        ausgabe.innerHTML = `${this.player1.name} hat gewonnen!`;
       }
       if (
         this.gameboard[condition[0]] === "O" &&
@@ -58,10 +72,12 @@ class Game {
         this.gameboard[condition[2]] === "O"
       ) {
         win = true;
+        ausgabe.innerHTML = `${this.player2.name} hat gewonnen!`;
       }
     });
     return win;
   }
+
   checkEnd() {
     return this.checkWin();
   }
@@ -70,39 +86,67 @@ class Game {
   }
 }
 
-function place() {
-  const plazieren = document.getElementById("feld");
-  const board = document.getElementById("container");
-
-  board.addEventListener("click", () => {});
+function place(game) {
+  function deleteHandler(box) {
+    box.removeEventListener("click", clickHandler);
+  }
+  function clickHandler(event) {
+    let coordinate = event.target.dataset.index;
+    sign = sign === "X" ? "O" : "X";
+    game.placeSign(sign, coordinate);
+    event.target.textContent = sign;
+    game.checkWin();
+    game.checkDraw();
+    deleteHandler(event.target);
+  }
+  let sign = "X";
+  const plazieren = document.getElementsByClassName("box");
+  //console.log(plazieren);
+  for (let box of plazieren) {
+    box.addEventListener("click", clickHandler);
+  }
 }
-console.log(plazieren);
+
+function check(p1, p2) {
+  if (p1 === "" || p2 === "") {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function clear() {
+  location.reload();
+}
 
 (function init() {
   const game = new Game();
+  place(game);
 
   const start = document.getElementById("start");
-  const playerName1 = document.getElementById("player1");
-  const playerName2 = document.getElementById("player2");
   const spielfeld = document.getElementById("gameboard");
   const hideEintrag = document.getElementById("eintrag");
+  const reset = document.getElementById("restart");
 
   start.addEventListener("click", () => {
-    game.createPlayers(playerName1.value, playerName2.value);
+    const playerName1 = document.getElementById("player1").value;
+    const playerName2 = document.getElementById("player2").value;
+    if (check(playerName1, playerName2)) {
+      game.createPlayers(playerName1, playerName2);
+      hideEintrag.classList.add("eintrag");
+      spielfeld.classList.remove("gameboard");
+    } else {
+      console.log("fehler");
+    }
+    /*
 
-    hideEintrag.classList.add("eintrag");
-    spielfeld.classList.remove("gameboard");
+    if (playerName1.value === "" || playerName2.value === "") {
+      meldung.innerHTML = `Bitte Namen eingeben!`;
+    } else {
+      game.createPlayers(playerName1.value, playerName2.value);
+    }
+*/
   });
-
-  console.log(game);
-  /*  game.createPlayers("Max", "Susi");
-  game.placeSign("X", 0);
-  game.placeSign("X", 1);
-  game.placeSign("X", 2);
-  game.placeSign("O", 0);
-  game.placeSign("O", 1);
-  game.placeSign("O", 2);
-  //game.placeSign("X", 2, 0);
-  console.log(game.gameboard);
-  console.log(game.checkEnd()); */
+  reset.addEventListener("click", clear);
+  // console.log(game);
 })();
