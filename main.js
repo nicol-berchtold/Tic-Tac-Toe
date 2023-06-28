@@ -1,16 +1,12 @@
 "use strict";
 
-//console.log(playersInput(player1, player2));
-
 class Player {
   constructor(name) {
     this.name = name;
     this.score = 0;
     this.sign = "";
   }
-  changeScore() {
-    this.score++;
-  }
+
   setSign(sign) {
     this.sign = sign;
   }
@@ -49,7 +45,6 @@ class Game {
       isDraw = true;
       ausgabe2.innerHTML = `Das Spiel ist unentschieden!`;
     }
-    //console.log(isDraw);
     return isDraw;
   }
 
@@ -78,9 +73,6 @@ class Game {
     return win;
   }
 
-  checkEnd() {
-    return this.checkWin();
-  }
   placeSign(sign, x) {
     this.gameboard[x] = sign;
   }
@@ -101,7 +93,6 @@ function place(game) {
   }
   let sign = "X";
   const plazieren = document.getElementsByClassName("box");
-  //console.log(plazieren);
   for (let box of plazieren) {
     box.addEventListener("click", clickHandler);
   }
@@ -127,6 +118,7 @@ function clear() {
   const spielfeld = document.getElementById("gameboard");
   const hideEintrag = document.getElementById("eintrag");
   const reset = document.getElementById("restart");
+  const meldung = document.getElementById("meldung");
 
   start.addEventListener("click", () => {
     const playerName1 = document.getElementById("player1").value;
@@ -136,17 +128,8 @@ function clear() {
       hideEintrag.classList.add("eintrag");
       spielfeld.classList.remove("gameboard");
     } else {
-      console.log("fehler");
+      meldung.innerHTML = `Bitte beide Spielernamen eingeben!`;
     }
-    /*
-
-    if (playerName1.value === "" || playerName2.value === "") {
-      meldung.innerHTML = `Bitte Namen eingeben!`;
-    } else {
-      game.createPlayers(playerName1.value, playerName2.value);
-    }
-*/
   });
   reset.addEventListener("click", clear);
-  // console.log(game);
 })();
